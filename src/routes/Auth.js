@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+// 자동으로 import를 해주려면 const와 export default 분리하여 사용
 const Auth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
