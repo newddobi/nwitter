@@ -8,9 +8,12 @@ const firebaseConfig = {
     projectId: process.env.REACT_APP_PROJECT_ID,
     storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_MESSAGIN_ID,
-    appId: process.env.REACT_APP_APP_ID
-  };
+    appId: process.env.REACT_APP_APP_ID,
+};
 
-  firebase.initializeApp(firebaseConfig);
-  
-  export const authService = firebase.auth();
+firebase.initializeApp(firebaseConfig);
+
+// 파이어베이스의 모든 기능을 export 하기보다 사용하고 싶은 것을 export하여 사용한다.
+export const authService = firebase.auth();
+
+export const firebaseInstance = firebase;
