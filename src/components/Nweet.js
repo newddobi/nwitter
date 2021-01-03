@@ -1,4 +1,4 @@
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import React, { useState } from "react";
 
 const Nweet = ({ nweetObj, isOwner }) => {
@@ -6,6 +6,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
     const [editing, setEditing] = useState(false);
     // input에 입력된 text 업데이트
     const [newNweet, setNewNweet] = useState(nweetObj.text);
+
     const onDeleteClick = async () => {
         const ok = window.confirm(
             "Are you sure you want to delete this nweet?"
@@ -13,9 +14,13 @@ const Nweet = ({ nweetObj, isOwner }) => {
         console.log(ok);
         if (ok) {
             await dbService.doc(`nweets/${nweetObj.id}`).delete();
+            // 저장된 사진 지우기
+            await storageService.refFromURL(nweetObj.attachmentUrl).delete();
         }
     };
+
     const toggleEditing = () => setEditing((prev) => !prev);
+
     const onSubmit = async (event) => {
         event.preventDefault();
         console.log(nweetObj, newNweet);
@@ -24,12 +29,14 @@ const Nweet = ({ nweetObj, isOwner }) => {
         });
         setEditing(false);
     }
+
     const onChange = (event) => {
         const {
             target: { value },
         } = event;
         setNewNweet(value);
     };
+
     return (
         <div>
             {editing ? (
@@ -54,6 +61,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
             ) : (
                 <>
                     <h4>{nweetObj.text}</h4>
+                    {nweetObj.attachmentUrl && <img alt="myPhoto" src={nweetObj.attachmentUrl} width="50px" height="50px" />}
                     {isOwner && (
                         <>
                             <button onClick={onDeleteClick}>

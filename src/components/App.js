@@ -4,7 +4,7 @@ import { authService } from "fbase";
 
 function App() {
     const [init, setInit] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     // 유저정보의 경우 애플리케이션의 최상단에 있어야 여러 컴포넌트, 라우터로 보낼 수 있다
     const [userObj, setUserObj] = useState(null);
 
