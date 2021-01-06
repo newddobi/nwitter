@@ -2,7 +2,7 @@ import { authService, dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-export default ({ userObj }) => {
+export default ({ refreshUser, userObj }) => {
     const history = useHistory();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
@@ -42,6 +42,8 @@ export default ({ userObj }) => {
             await userObj.updateProfile({
                 displayName: newDisplayName,
             });
+            // firebase에 있는 profile을 업데이트 시켜준 후에 리액트에 있는 profile 새로고침
+            refreshUser();
         }
     };
 

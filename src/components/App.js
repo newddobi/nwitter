@@ -19,17 +19,40 @@ function App() {
     useEffect(() => {
         authService.onAuthStateChanged((user) => {
             if (user) {
-                setUserObj(user);
+                setUserObj({
+                    displayName: user.displayName,
+                    uid: user.uid,
+                    updateProfile: (args) => user.updateProfile(args),
+                });
             }
             // init이 false라면 router를 숨길 것이다.
             setInit(true);
         });
     }, []);
 
+    // 유저정보가 바뀌면 다른 컴포넌트들에게 정보 전달
+    const refreshUser = () => {
+        const user = authService.currentUser;
+        
+        setUserObj({
+            displayName: user.displayName,
+            uid: user.uid,
+            updateProfile: (args) => user.updateProfile(args),
+        });
+    };
+
     return (
         <>
             {/* 기본적으로 userObj가 존재할 때 로그인이 된다 */}
-            {init ? <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj}/> : "Initializing"}
+            {init ? (
+                <AppRouter
+                    refreshUser={refreshUser}
+                    isLoggedIn={Boolean(userObj)}
+                    userObj={userObj}
+                />
+            ) : (
+                "Initializing"
+            )}
             <footer>&copy; {new Date().getFullYear()} Nwitter </footer>
         </>
     );
