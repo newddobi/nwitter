@@ -24,6 +24,8 @@ function App() {
                     uid: user.uid,
                     updateProfile: (args) => user.updateProfile(args),
                 });
+            } else {
+                setUserObj(null);
             }
             // init이 false라면 router를 숨길 것이다.
             setInit(true);
